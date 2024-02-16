@@ -1,0 +1,3 @@
+Instalar @vitejs/plugin-react -E
+npm i react react-dom -E  
+una es la biblioteca(hooks etc...) y la otra es el binding con el navegador -E==(version exacta)
