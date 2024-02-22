@@ -1,53 +1,43 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import { getRandomFact } from './services/facts'
+import { useCatImage } from './hooks/useCatImage'
+
+
 
 const App = () => {
 
     const [fact, setFact] = useState()
-    const[image, setImage] = useState()
 
-    
+    const { image } = useCatImage(fact)
+
+
     useEffect(() => {
-        fetch('https://catfact.ninja/fact')
-        .then(res=> res.json())
-        .then(data =>
-            {const { fact } = data 
-            setFact(fact)
-            const firstWord = fact.split(' ', 1)
-            // const firstWord = fact.split(' ').slice(0, 3).join(' ')
-            console.log(firstWord);
-            fetch(`https://cataas.com/cat/says/:${firstWord}?size=50&color=red&json=true`)
-            
-            .then(res=>res.json())
-            .then(response =>{
-                console.log(response);
-                const { _id } = response 
-                console.log(_id);
-                setImage(`https://cataas.com/cat/says/${_id}`)
-            }
-         
-                )
-            }
-      
-        )
+        handleClick()
+
     }, [])
-    
-const prueba = () => {
 
-}
 
-  return (
-    <main style={{ display: 'flex', justifyContent:'center', alignItems:'center',  flexDirection:'column' }}>
-        
-        <h1>App de gatos</h1>
-        
-        <section style={{justifyContent:'space-between', display:'flex'}}>
-        {fact && <p>{fact}</p>}
- 
-        {image && <img src={image} alt='cat'/>}
-        </section>
-     
-    </main>
-  )
+
+    const handleClick = async () => {
+        const newFact = await getRandomFact()
+        setFact(newFact)
+    }
+
+    return (
+        <main style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+
+            <h1>App de gatos</h1>
+
+
+            <button onClick={handleClick}>get new fact</button>
+            {fact && <p>{fact}</p>}
+
+            {image && <img src={image} alt='cat' />}
+
+
+        </main>
+    )
 }
 
 export default App
