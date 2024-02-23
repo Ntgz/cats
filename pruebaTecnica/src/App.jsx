@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
+import Otro from './components/OtroDos'
 import { getRandomFact } from './services/facts'
 import { useCatImage } from './hooks/useCatImage'
+import { useHookDos } from './hooks/jookDos'
+
+
 
 
 
 const App = () => {
 
-    const [fact, setFact] = useState()
-
-    const { image } = useCatImage(fact)
+   
+    const { fact, handleClickFunc} = useHookDos()
+    const { image } = useCatImage({fact})
 
 
     useEffect(() => {
@@ -20,8 +24,7 @@ const App = () => {
 
 
     const handleClick = async () => {
-        const newFact = await getRandomFact()
-        setFact(newFact)
+        handleClickFunc()
     }
 
     return (
@@ -34,6 +37,8 @@ const App = () => {
             {fact && <p>{fact}</p>}
 
             {image && <img src={image} alt='cat' />}
+
+            <Otro/>
 
 
         </main>
